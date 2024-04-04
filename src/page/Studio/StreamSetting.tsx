@@ -1,5 +1,13 @@
+import FormGroup from "@mui/material/FormGroup";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import Select from "@mui/material/Select";
+
+
 import { ChangeEvent, useEffect, useState } from "react";
-import { Box, Button, FormGroup, Input, MenuItem, OutlinedInput, Select, SelectChangeEvent } from "@mui/material";
+
 import { authGet, authPost } from "../../tools/HttpClient";
 
 interface StreamInfo {
@@ -29,7 +37,7 @@ function StreamSetting() {
         })
     }
 
-    const onChangeCategory = (e: SelectChangeEvent) => {
+    const onChangeCategory = (e: any) => {
         setStreamInfo({
             ...streamInfo,
             streamCategory: (e.target.value)

@@ -1,14 +1,17 @@
-import {useEffect, useRef, useState } from "react";
-import * as HttpClient from '../../tools/HttpClient';
+import CallMade from "@mui/icons-material/CallMade";
 
-import styles from './Channel.module.css';
-import { Route, RouterProvider, Routes, useLocation, useNavigate, useParams } from "react-router";
-import { getId } from "../../tools/PathParser";
-import { Avatar, Box, Button, CircularProgress, SxProps } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
+
+import { useEffect, useState } from "react";
+import { Route, Routes, useNavigate, useParams } from "react-router";
+
+import * as HttpClient from '../../tools/HttpClient';
 import ChannelCommunity from "./ChannelCommunity";
 import ChannelVideos from "./ChannelVideos";
 import ChannelHome from "./ChannelHome";
-import { CallMade, OpenInNew } from "@mui/icons-material";
 import ChannelWritePost from "./ChannelWritePost";
 
 interface ChannelData {
@@ -77,7 +80,7 @@ function Channel() {
     }
 
     return (
-        <div className={styles.channel_container}>
+        <Box width={"100%"} display={"flex"} flexDirection={"column"} p={"24px"}>
             <Box display={"flex"} flexDirection={"row"} alignItems={"center"}>
                 <Avatar />
                 <Box ml={2}>
@@ -107,7 +110,7 @@ function Channel() {
                     <Route path="/write" element={<ChannelWritePost />} />
                 </Routes>
             </Box>
-        </div>
+        </Box>
     )
 }
 
@@ -117,7 +120,7 @@ const nonActiveTabButtonSx = {
     fontWeight: "bold",
 }
 
-const activeTabButtonSx: SxProps = {
+const activeTabButtonSx = {
     ...nonActiveTabButtonSx,
     color: "black",
     background: "var(--select-point)",

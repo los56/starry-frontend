@@ -1,33 +1,7 @@
-import { Box, Button, Dialog, DialogContent, DialogTitle } from "@mui/material";
-import axios from "axios";
-import { ChangeEvent, FormEvent, useState } from "react";
-import { useCookies } from "react-cookie";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+
 import { useNavigate } from "react-router";
-
-interface ModalShow {
-    login: boolean,
-    register: boolean
-}
-
-interface LoginInputs {
-    username: string;
-    password: string;
-}
-
-interface RegisterInputs {
-    username: string;
-    password: string;
-    passwordRe: string;
-    nickname: string;
-    email: string;
-    agreement: boolean;
-}
-
-interface DuplicateChecks {
-    username: boolean;
-    nickname: boolean;
-    email: boolean;
-}
 
 function SignButtons() {
     const navigate = useNavigate();

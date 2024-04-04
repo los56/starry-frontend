@@ -1,12 +1,16 @@
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button" 
+import Divider from "@mui/material/Divider" 
+import IconButton from "@mui/material/IconButton";
+
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import axios from "axios";
-import { useAppDispatch, useAppSelector } from "../../store/Hooks";
-import { update, updateFollows } from "../../store/slice/UserInfoSlice";
-import { AccountBox, AccountCircle } from "@mui/icons-material";
-import { Box, Button, Divider, IconButton } from "@mui/material";
-import { authGet } from "../../tools/HttpClient";
 import { useNavigate } from "react-router";
+
+import { useAppDispatch, useAppSelector } from "../../store/Hooks";
+import { update } from "../../store/slice/UserInfoSlice";
+import * as HttpClient from "../../tools/HttpClient";
 
 export interface UserInfo {
     id: string;
@@ -28,7 +32,7 @@ function AccountButton() {
 
     useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
-        authGet("/api/user/user-info").then(res => {
+        HttpClient.authGet("/api/user/user-info").then(res => {
             dispatch(update(res.data));
         }).catch(() => {
             console.error("사용자 정보를 불러오는 데 실패했습니다.")

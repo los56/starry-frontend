@@ -1,8 +1,7 @@
 import { useState } from "react";
-import axios from 'axios';
-import { config } from "process";
+import * as HttpClient from "../../tools/HttpClient"
 import { useCookies } from "react-cookie";
-import { Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup, Input, InputAdornment, OutlinedInput } from "@mui/material";
+import { Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, FormGroup, InputAdornment, OutlinedInput } from "@mui/material";
 
 interface ModalState {
     Warning: boolean;
@@ -21,7 +20,7 @@ function StreamBroadcast() {
 
     const handleShowStreamKey = (state: boolean) => {
         if(state) {
-            axios.get('/api/channel/studio/stream-key', {headers: {Authorization: `Bearer ${cookies.accessToken}`}}).then((res: any) => {
+            HttpClient.authGet('/api/channel/studio/stream-key').then((res: any) => {
                 setStreamKey(res.data.streamKey);
                 setShowStreamKey(state);
             })
@@ -49,7 +48,7 @@ function StreamBroadcast() {
 
     const regenStreamKey = () => {
         handleCloseModal("Regen");
-        axios.get("/api/channel/studio/regen-key", {headers: {Authorization: `Bearer ${cookies.accessToken}`}}).then(res => {
+        HttpClient.authGet("/api/channel/studio/regen-key").then(res => {
             setStreamKey(res.data.streamKey);
         });
     }

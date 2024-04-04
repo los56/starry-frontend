@@ -1,9 +1,11 @@
-import { Avatar, Box } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/Hooks';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 
-import * as HttpClient from '../../tools/HttpClient';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
+
+import { useAppDispatch, useAppSelector } from '../../store/Hooks';
+import * as HttpClient from '../../tools/HttpClient';
 
 interface FollowingChannelData {
     channel: {

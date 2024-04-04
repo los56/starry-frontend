@@ -1,8 +1,3 @@
-import logo from '../../logo.svg';
-import { useCookies } from 'react-cookie';
-import SignButtons from './SignButtons';
-import AccountButton from './AccountButton';
-
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
@@ -12,6 +7,12 @@ import Search from '@mui/icons-material/Search';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useCookies } from 'react-cookie';
+
+import logo from '../../logo.svg';
+
+import SignButtons from './SignButtons';
+import AccountButton from './AccountButton';
 
 function Toolbar() {
     const [cookies, setCookie, removeCookie] = useCookies();

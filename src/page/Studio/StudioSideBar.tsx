@@ -1,5 +1,8 @@
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button'; 
+import Divider from '@mui/material/Divider';
+
 import { StudioPages } from './Studio';
-import { Box, Button, Divider } from '@mui/material';
 import { CSSProperties } from 'react';
 
 function StudioSideBar({pageState}: {pageState: [StudioPages, React.Dispatch<React.SetStateAction<StudioPages>>]}) {

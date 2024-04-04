@@ -1,10 +1,13 @@
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import axios from "axios";
 import Hls from "hls.js";
-import ChatBar from "../../component/ChatBar/ChatBar";
-import { Avatar, Box, Button, Divider } from "@mui/material";
+
 import * as HttpClient from '../../tools/HttpClient'
+import ChatBar from "../../component/ChatBar/ChatBar";
 import FollowButton from "../../component/FollowButton/FollowButton";
 
 interface StreamInfo { 

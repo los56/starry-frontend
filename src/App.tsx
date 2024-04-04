@@ -1,3 +1,5 @@
+import Box from '@mui/material/Box';
+
 import {RouterProvider, createBrowserRouter} from 'react-router-dom';
 
 import Sidebar from './component/Sidebar/Sidebar';
@@ -10,7 +12,7 @@ import Stream from './page/Stream/Stream';
 import MyPage from './page/MyPage/MyPage';
 import Register from './page/Auth/Register';
 import Login from './page/Auth/Login';
-import { Box } from '@mui/material';
+
 
 const Viewport = ({children}: any) => {
     return (

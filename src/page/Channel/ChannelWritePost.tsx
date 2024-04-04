@@ -1,4 +1,8 @@
-import { Box, Button, Divider, TextField } from "@mui/material";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import TextField from "@mui/material/TextField";
+
 import { ChangeEvent, useState } from "react";
 
 function ChannelWritePost() {
@@ -9,7 +13,7 @@ function ChannelWritePost() {
     }
 
     const doWrite = () => {
-        
+
     }
 
     return (

@@ -1,9 +1,20 @@
-import { ArrowBack, Visibility, VisibilityOff } from "@mui/icons-material";
-import { Box, Button, Divider, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Checkbox } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility"
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
+import Divider from "@mui/material/Divider"
+import FormControl from "@mui/material/FormControl"
+import FormControlLabel from "@mui/material/FormControlLabel"
+import IconButton from "@mui/material/IconButton"
+import InputAdornment from "@mui/material/InputAdornment"
+import InputLabel from "@mui/material/InputLabel"
+import OutlinedInput from "@mui/material/OutlinedInput"
+import Checkbox from "@mui/material/Checkbox";
+
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router";
-import { getQueries } from "../../tools/PathParser";
 
+import { getQueries } from "../../tools/PathParser";
 import * as HttpClient from '../../tools/HttpClient';
 
 interface InputState {

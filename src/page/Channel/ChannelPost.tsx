@@ -1,7 +1,12 @@
-import { Avatar, Box, IconButton } from "@mui/material";
-import { PostData } from "./types";
+import DeleteForever from "@mui/icons-material/DeleteForever";
+import Edit from "@mui/icons-material/Edit";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+
 import { useEffect, useRef } from "react";
-import { DeleteForever, Edit } from "@mui/icons-material";
+
+import { PostData } from "./types";
 
 function ChannelPost({data, editable}: {data: PostData, editable?: boolean}) {
     const contentRef = useRef<HTMLParagraphElement>(null);
