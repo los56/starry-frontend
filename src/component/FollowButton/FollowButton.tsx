@@ -20,7 +20,7 @@ function FollowButton({channelId}: {channelId: string}) {
     const [dialogOpen, setDialogOpen] = useState(false);
 
     useEffect(() => {
-        HttpClient.authGet(`/api/channel/relation?id=${channelId}`).then(res => {
+        HttpClient.authGet(`/api/channel/relation?channelId=${channelId}`).then(res => {
             setFollowed(res.data.following);
         }).catch(error => {
             console.error(error);

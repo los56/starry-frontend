@@ -20,7 +20,7 @@ function StreamBroadcast() {
 
     const handleShowStreamKey = (state: boolean) => {
         if(state) {
-            HttpClient.authGet('/api/channel/studio/stream-key').then((res: any) => {
+            HttpClient.authGet('/api/studio/stream-key').then((res: any) => {
                 setStreamKey(res.data.streamKey);
                 setShowStreamKey(state);
             })

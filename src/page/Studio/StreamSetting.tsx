@@ -22,9 +22,9 @@ function StreamSetting() {
     });
 
     useEffect(() => {
-        authGet("/api/channel/studio/stream-info").then(res => {
+        authGet("/api/studio/stream-info").then(res => {
             console.log(res);
-            setStreamInfo(res);
+            setStreamInfo(res.data);
         }).catch(() => {
             console.error("error");
         });
@@ -45,7 +45,7 @@ function StreamSetting() {
     }
 
     const applySetting = () => {
-        authPost("/api/channel/studio/change-stream-info", streamInfo).then(res => {
+        authPost("/api/studio/change-stream-info", streamInfo).then(res => {
             alert("적용되었습니다.")
         }).catch(() => {
             console.error("erorr")

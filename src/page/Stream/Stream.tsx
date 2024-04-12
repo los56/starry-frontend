@@ -9,8 +9,9 @@ import Hls from "hls.js";
 import * as HttpClient from '../../tools/HttpClient'
 import ChatBar from "../../component/ChatBar/ChatBar";
 import FollowButton from "../../component/FollowButton/FollowButton";
+import { useAppSelector } from "../../store/Hooks";
 
-interface StreamInfo { 
+interface StreamData { 
     channel: {
         bannerUrl: string | null;
         description: string;
@@ -19,9 +20,10 @@ interface StreamInfo {
         verified: boolean
     };
     status: "LIVE" | "CLOSE";
-    streamId: string | null;
+    streamId: string;
     streamTitle: string;
     streamCategory: string;
+    viewersCount?: number
 }
 
 function Stream() {
@@ -29,7 +31,9 @@ function Stream() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [channelData, setChannelData] = useState<StreamInfo>();
+    const userInfo = useAppSelector(state => state.userinfo);
+
+    const [streamData, setStreamData] = useState<StreamData>();
 
     useEffect(() => {
         const paths = location.pathname.split("/");
@@ -42,7 +46,7 @@ function Stream() {
         
         HttpClient.get("/api/stream/live?channel=" + channelId).then(res => {
             if(res.data.status == "LIVE") {
-                const videoSrc = `http://localhost:8081/hls/${res.data.streamId}.m3u8`;
+                const videoSrc = `/media/hls/${res.data.streamId}.m3u8`;
 
                 if(Hls.isSupported()) {
                     const hls = new Hls();
@@ -51,11 +55,33 @@ function Stream() {
                 }
             }
 
-            setChannelData(res.data);
+            setStreamData(res.data);
         });
-    }, [])
 
-    if(!channelData) {
+        const refreshEvent = setTimeout(() => {
+            refresh(channelId);
+        }, 5000);
+    }, []);
+
+    const refresh = (channelId: string) => {
+        HttpClient.get("/api/stream/live?channel=" + channelId).then(res => {
+            if(res.data.status == "LIVE" && !videoRef.current?.src) {
+                const videoSrc = `/media/hls/${res.data.streamId}.m3u8`;
+
+                if(Hls.isSupported()) {
+                    const hls = new Hls();
+                    hls.loadSource(videoSrc);
+                    hls.attachMedia(videoRef.current as any);
+                }
+            }
+
+            setStreamData(res.data);
+            setTimeout(() => refresh(channelId), 5000);
+        });
+    }
+
+
+    if(!streamData) {
         return (<div></div>)
     }
 
@@ -66,30 +92,32 @@ function Stream() {
                     <video style={{width: "100%", height: "100%"}} ref={videoRef} controls/>
                 </Box>
                 <Box mx={2} mt={1}>
-                    <h2 style={{margin: "8px 0"}}>{channelData?.streamTitle}</h2>
+                    <h2 style={{margin: "8px 0"}}>{streamData?.streamTitle}</h2>
                     <Box display={"flex"} flexDirection={"row"} alignItems={"center"}>
-                        <div style={{cursor: "pointer"}} onClick={() => navigate(`/channel/${channelData?.channel.id}`)}>
+                        <div style={{cursor: "pointer"}} onClick={() => navigate(`/channel/${streamData?.channel.id}`)}>
                             <Avatar sx={{width: 64, height: 64}}/>
                         </div>
                         <Box ml={1}>
-                            <h3 style={{margin: 0, cursor: "pointer"}} onClick={() => navigate(`/channel/${channelData?.channel.id}`)}>{channelData?.channel.nickname}</h3>
+                            <h3 style={{margin: 0, cursor: "pointer"}} onClick={() => navigate(`/channel/${streamData?.channel.id}`)}>{streamData?.channel.nickname}</h3>
                             <div>
                                 <div>{}</div>
-                                <div>{channelData?.streamCategory}</div>
+                                <div>{streamData?.streamCategory}</div>
                             </div>
-                            <Box display={"flex"} gap={1} color={"gray"} fontSize={"0.9rem"}>
-                                <span>0명 시청 중</span>
-                                <Divider orientation="vertical" flexItem/>
-                                <span>업타임 00:00:00</span>
-                            </Box>
+                            {streamData.status === "LIVE" &&
+                                <Box display={"flex"} gap={1} color={"gray"} fontSize={"0.9rem"}>
+                                    <span>{streamData.viewersCount}명 시청 중</span>
+                                    <Divider orientation="vertical" flexItem/>
+                                    <span>업타임 00:00:00</span>
+                                </Box>
+                            }
                         </Box>
                         <Box justifySelf={"end"} ml={"auto"}>
-                            <FollowButton channelId={channelData.channel.id}/>
+                            {userInfo.info?.id != streamData.channel.id && <FollowButton channelId={streamData.channel.id}/>}
                         </Box>
                     </Box>
                 </Box>
             </Box>
-            <ChatBar />
+            <ChatBar channelId={streamData.channel.id} streamId={streamData.streamId}/>
         </Box>
     )
 }
