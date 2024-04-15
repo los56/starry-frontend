@@ -25,6 +25,7 @@ function ChatBar({channelId, streamId}: {channelId: string, streamId: string}) {
     const client = useRef<any>({});
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const [chats, setChats] = useState<ChatData[]>([]);
+
     const [myMessage, setMyMessage] = useState("");
     const [moveScroll, setMoveScroll] = useState(false);
 
@@ -63,19 +64,36 @@ function ChatBar({channelId, streamId}: {channelId: string, streamId: string}) {
             console.error("Failed connect to chat server");
         }
 
-        (client.current as StompJs.Client).subscribe(`/subscribe/${streamId}`, onReceiveMessage)
+        (client.current as StompJs.Client).subscribe(`/subscribe/${streamId}`, onReceiveMessage);
+    }
+
+    const reqPrevMessages = () => {
+        (client.current as StompJs.Client).publish({
+            destination: "/send/prev",
+            body: JSON.stringify({count: 50})
+        });
+    }
+
+    const onReceivePrevMessages = (messages: StompJs.Message) => {
+        const messagesJson = JSON.parse(messages.body);
+        const bef = chats.slice(0);
+        for(let message of messagesJson) {
+            bef.push(message);
+        }
+        setChats(bef);
     }
 
     const connect = () => {
         client.current = new StompJs.Client({
-            brokerURL: `ws://${window.location.host}/api/chat`,
-            onConnect: () => {
-                console.log();
+            brokerURL: `ws://${process.env.NODE_ENV === "production" ? window.location.host : "localhost"}/api/chat`,
+            onConnect: (frame) => {
                 subscribe();
+                (client.current as StompJs.Client).subscribe(`/user/prev`, onReceivePrevMessages);
+                reqPrevMessages();
             },
             connectHeaders: {
                 channelId: channelId,
-                streamId: streamId,
+                roomId: streamId,
                 accessToken: `Bearer ${cookies.accessToken}`
             }
         });

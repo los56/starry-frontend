@@ -62,6 +62,11 @@ function AccountButton() {
         removeCookie('refreshToken')
     }
 
+    const handleClickButton = (destURL: string) => {
+        setShowOverlay(false);
+        navigate(destURL);
+    }
+
     if(!userInfo.info) {
         return <span></span>
     }
@@ -75,25 +80,18 @@ function AccountButton() {
             {showOverlay && (
                 <Box 
                     position={"absolute"}
-                    right={"2px"}
-                    top={`${45.25 - 8}px`}
-                    zIndex={100}
+                    right={"8px"}
+                    top={`${45.25}px`}
+                    zIndex={100} width={"120px"}
+                    bgcolor={"gray"}
                     borderRadius={"7px"}>
-                    <ul>
-                        <li>
-                            <Button type="button" onClick={() => navigate("/studio")}>스튜디오</Button>
-                        </li>
-                        <li>
-                            <Button type="button" onClick={() => navigate(`/channel/${userInfo.info?.id}`)}>내 채널</Button>
-                        </li>
+                    <Box display={"flex"} flexDirection={"column"}>
+                        <Button type="button" color="inherit" onClick={() => handleClickButton("/studio")}>스튜디오</Button>
+                        <Button type="button" color="inherit" onClick={() => handleClickButton(`/channel/${userInfo.info?.id}`)}>내 채널</Button>
                         <Divider />
-                        <li>
-                            <Button type="button" onClick={() => navigate("/mypage")}>정보 수정</Button>
-                        </li>
-                        <li>
-                            <Button type="button" onClick={logout}>로그아웃</Button>
-                        </li>
-                    </ul>
+                        <Button type="button"color="inherit" onClick={() => handleClickButton("/mypage")}>정보 수정</Button>
+                        <Button type="button" color="inherit" onClick={logout}>로그아웃</Button>
+                    </Box>
                 </Box>
             )}
         </span>

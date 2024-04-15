@@ -58,9 +58,18 @@ function Stream() {
             setStreamData(res.data);
         });
 
-        const refreshEvent = setTimeout(() => {
+        refresh(channelId);
+
+        let refreshEvent = setTimeout(() => {
             refresh(channelId);
+            refreshEvent = setTimeout(() => {
+                refresh(channelId);
+            }, 5000);
         }, 5000);
+
+        return () => {
+            clearTimeout(refreshEvent);
+        }
     }, []);
 
     const refresh = (channelId: string) => {
@@ -76,7 +85,6 @@ function Stream() {
             }
 
             setStreamData(res.data);
-            setTimeout(() => refresh(channelId), 5000);
         });
     }
 
